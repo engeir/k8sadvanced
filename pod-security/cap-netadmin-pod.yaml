@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cap-netadmin
+spec:
+  containers:
+  - name: busy
+    image: busybox
+    command: ["/bin/sh","-c","sleep 3600"]
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsUser: 1000
+      capabilities:
+        add: ["NET_ADMIN"]
+  restartPolicy: Never
