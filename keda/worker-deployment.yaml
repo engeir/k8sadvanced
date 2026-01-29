@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-worker
+  labels:
+    app: redis-worker
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: redis-worker
+  template:
+    metadata:
+      labels:
+        app: redis-worker
+    spec:
+      containers:
+      - name: worker
+        image: redis:7
+        command:
+          - /bin/sh
+          - -c
+          - |
+            while true; do
+              MSG=$(redis-cli -h redis LPOP keda-queue)
+              if [ ! -z "$MSG" ]; then
+                echo "processed: $MSG"
+                sleep 1
+              else
+                sleep 1
+              fi
+            done
+        resources:
+          requests:
+            cpu: "50m"
+          limits:
+            cpu: "200m"
