@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-required-tainted
+  namespace: lab-affinity
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-req-tainted
+  template:
+    metadata:
+      labels:
+        app: nginx-req-tainted
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: purpose
+                operator: In
+                values:
+                - tainted
+      containers:
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80

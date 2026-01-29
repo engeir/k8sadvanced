@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: taint-demo-no-tol
+  namespace: lab-affinity
+  labels:
+    app: taint-demo
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.25
+    ports:
+    - containerPort: 80
+  restartPolicy: Always
