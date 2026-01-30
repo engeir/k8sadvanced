@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -16,46 +17,46 @@ spec:
         app: mysql
     spec:
       containers:
-      - name: mysql
-        image: mysql:8.0
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-root-password
-              key: MYSQL_ROOT_PASSWORD
-        - name: POD_ROLE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        volumeMounts:
-        - name: config
-          mountPath: /etc/mysql/conf.d
-        - name: data
-          mountPath: /var/lib/mysql
-        - name: replica-init
-          mountPath: /docker-entrypoint-initdb.d/replica-init.sh
-          subPath: replica-init.sh
+        - name: mysql
+          image: mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-root-password
+                  key: MYSQL_ROOT_PASSWORD
+            - name: POD_ROLE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - name: config
+              mountPath: /etc/mysql/conf.d
+            - name: data
+              mountPath: /var/lib/mysql
+            - name: replica-init
+              mountPath: /docker-entrypoint-initdb.d/replica-init.sh
+              subPath: replica-init.sh
       volumes:
-      - name: config
-        configMap:
-          name: mysql-config
-          items:
-          - key: my-master.cnf
-            path: my-master.cnf
-          - key: my-replica.cnf
-            path: my-replica.cnf
-      - name: replica-init
-        configMap:
-          name: replica-init-script
-          items:
-          - key: replica-init.sh
-            path: replica-init.sh
+        - name: config
+          configMap:
+            name: mysql-config
+            items:
+              - key: my-master.cnf
+                path: my-master.cnf
+              - key: my-replica.cnf
+                path: my-replica.cnf
+        - name: replica-init
+          configMap:
+            name: replica-init-script
+            items:
+              - key: replica-init.sh
+                path: replica-init.sh
   volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      resources:
-        requests:
-          storage: 10Gi
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi

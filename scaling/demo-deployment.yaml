@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,13 +16,13 @@ spec:
         app: demo-app-autoscale
     spec:
       containers:
-      - name: hpa-example
-        # small example image that can be stressed; public image used in k8s docs
-        image: k8s.gcr.io/hpa-example
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            cpu: "100m"
-          limits:
-            cpu: "200m"
+        - name: hpa-example
+          # small example image that can be stressed; public image used in k8s docs
+          image: k8s.gcr.io/hpa-example
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "200m"

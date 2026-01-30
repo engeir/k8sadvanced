@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/google/yamlfmt/main/schema.json
+match_type: doublestar
+formatter:
+  type: basic
+  include_document_start: true
+  scan_folded_as_literal: true
+include:
+  - "**/*.yml"
+  - "**/*.yaml"

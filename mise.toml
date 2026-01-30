@@ -1,0 +1,6 @@
+[tools]
+"github:k0sproject/k0s" = "latest"
+k3s = "latest"
+kubectl = "latest"
+minikube = "latest"
+podman = "latest"

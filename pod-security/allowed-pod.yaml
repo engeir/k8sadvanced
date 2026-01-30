@@ -1,19 +1,20 @@
+---
 apiVersion: v1
 kind: Pod
 metadata:
   name: allowed
 spec:
   containers:
-  - name: busy
-    image: busybox
-    command: ["/bin/sh","-c","sleep 3600"]
-    securityContext:
-      runAsUser: 1000
-      runAsNonRoot: true
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-      capabilities:
-        drop: ["ALL"]
-      seccompProfile:
-        type: RuntimeDefault
+    - name: busy
+      image: busybox
+      command: ["/bin/sh", "-c", "sleep 3600"]
+      securityContext:
+        runAsUser: 1000
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop: ["ALL"]
+        seccompProfile:
+          type: RuntimeDefault
   restartPolicy: Never

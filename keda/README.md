@@ -1,10 +1,13 @@
 # ⚡ KEDA Lab: Event-driven scaling with Minikube
 
-This lab demonstrates how to use **KEDA** (Kubernetes Event-driven Autoscaling) in Minikube to scale workloads based on external events. We'll use **Redis list length** as a scaler example to scale a simple worker deployment.
+This lab demonstrates how to use **KEDA** (Kubernetes Event-driven Autoscaling) in
+Minikube to scale workloads based on external events. We'll use **Redis list length** as
+a scaler example to scale a simple worker deployment.
 
 ---
 
 ## 🎯 Learning objectives
+
 - Install KEDA on Minikube (Helm or manifest).
 - Deploy a Redis queue and a worker Deployment.
 - Create a `ScaledObject` to scale the worker based on Redis list length.
@@ -13,6 +16,7 @@ This lab demonstrates how to use **KEDA** (Kubernetes Event-driven Autoscaling) 
 ---
 
 ## 📋 Prerequisites
+
 - **Minikube** running (single-node is fine for this lab).
 - **kubectl** configured to use the `minikube` context.
 - Optional: **helm** installed (makes KEDA install easier).
@@ -80,13 +84,15 @@ kubectl get scaledobject
 kubectl describe scaledobject redis-scaledobject
 ```
 
-This ScaledObject will scale `redis-worker` between `minReplicaCount: 0` and `maxReplicaCount: 5` when the Redis list length exceeds the threshold.
+This ScaledObject will scale `redis-worker` between `minReplicaCount: 0` and
+`maxReplicaCount: 5` when the Redis list length exceeds the threshold.
 
 ---
 
 ## Step 4: Generate load (producer)
 
-Push messages into the Redis list to trigger scaling. Use the `producer` pod in this folder:
+Push messages into the Redis list to trigger scaling. Use the `producer` pod in this
+folder:
 
 ```
 kubectl apply -f producer-pod.yaml
@@ -102,7 +108,8 @@ kubectl get hpa -n default  # KEDA may create an HPA under the hood
 kubectl describe scaledobject redis-scaledobject
 ```
 
-You should see `redis-worker` replicas grow in response to backlog and shrink after the queue is drained.
+You should see `redis-worker` replicas grow in response to backlog and shrink after the
+queue is drained.
 
 ---
 
@@ -121,13 +128,17 @@ kubectl delete ns keda || true
 ---
 
 ## Troubleshooting & tips
+
 - Check KEDA operator logs: `kubectl -n keda logs deploy/keda-operator -c keda-operator`
-- Inspect ScaledObject status and scaler metrics: `kubectl describe scaledobject redis-scaledobject`
-- If using Minikube single node, scaling still works — replicas are regular pods on that node.
+- Inspect ScaledObject status and scaler metrics:
+  `kubectl describe scaledobject redis-scaledobject`
+- If using Minikube single node, scaling still works — replicas are regular pods on that
+  node.
 
 ---
 
 ## Files in this folder
+
 - `redis-deployment.yaml` — Redis Deployment + Service
 - `worker-deployment.yaml` — Worker Deployment (replicas start at 0)
 - `redis-scaledobject.yaml` — KEDA ScaledObject that monitors Redis list length

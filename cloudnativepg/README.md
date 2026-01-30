@@ -1,8 +1,10 @@
 # CloudNativePG Operator Lab
 
-This lab will teach you how to deploy and manage PostgreSQL clusters on Kubernetes using the CloudNativePG operator.
+This lab will teach you how to deploy and manage PostgreSQL clusters on Kubernetes using
+the CloudNativePG operator.
 
 ## Objectives
+
 - Install the CloudNativePG operator
 - Deploy a PostgreSQL cluster
 - Connect to the database
@@ -10,6 +12,7 @@ This lab will teach you how to deploy and manage PostgreSQL clusters on Kubernet
 - Perform a backup and restore
 
 ## Prerequisites
+
 - Access to a Kubernetes cluster (e.g., Minikube, Kind, AKS, EKS, GKE)
 - `kubectl` installed and configured
 
@@ -35,18 +38,25 @@ This lab will teach you how to deploy and manage PostgreSQL clusters on Kubernet
 
 ### Installing psql CLI on Windows
 
-To connect to PostgreSQL, you need the `psql` command-line client. On Windows, you can install it as follows:
+To connect to PostgreSQL, you need the `psql` command-line client. On Windows, you can
+install it as follows:
 
-1. Download the PostgreSQL installer from the official site: [https://www.postgresql.org/download/windows/](https://www.postgresql.org/download/windows/)
-2. Run the installer and select only the "Command Line Tools" if you do not want the full PostgreSQL server. (you don't want that, we're running it in the cluster)
-3. After installation, add the PostgreSQL `bin` directory (e.g., `C:\Program Files\PostgreSQL\16\bin`) to your system `PATH` environment variable.
+1. Download the PostgreSQL installer from the official site:
+   [https://www.postgresql.org/download/windows/](https://www.postgresql.org/download/windows/)
+2. Run the installer and select only the "Command Line Tools" if you do not want the
+   full PostgreSQL server. (you don't want that, we're running it in the cluster)
+3. After installation, add the PostgreSQL `bin` directory (e.g.,
+   `C:\Program Files\PostgreSQL\16\bin`) to your system `PATH` environment variable.
 4. Open a new Command Prompt and run:
-    ```sh
-    psql --version
-    ```
-    You should see the installed version.
+   ```sh
+   psql --version
+   ```
+   You should see the installed version.
 
-Alternatively, you can use [Windows Package Manager (winget)](https://learn.microsoft.com/en-us/windows/package-manager/winget/) to install PostgreSQL tools:
+Alternatively, you can use
+[Windows Package Manager (winget)](https://learn.microsoft.com/en-us/windows/package-manager/winget/)
+to install PostgreSQL tools:
+
 ```sh
 winget install PostgreSQL
 ```
@@ -126,9 +136,11 @@ kubectl get svc -n pg-lab
    kubectl apply -f pg-backup.yaml
    kubectl get backups -n pg-lab
    ```
-2. To restore, create a `Restore` resource (see [CloudNativePG docs](https://cloudnative-pg.io/docs/)).
+2. To restore, create a `Restore` resource (see
+   [CloudNativePG docs](https://cloudnative-pg.io/docs/)).
 
 ## Cleanup
+
 ```sh
 kubectl delete namespace pg-lab
 helm uninstall cloudnative-pg -n cnpg-system
@@ -136,5 +148,6 @@ kubectl delete namespace cnpg-system
 ```
 
 ## References
+
 - [CloudNativePG Documentation](https://cloudnative-pg.io/docs/)
 - [CloudNativePG GitHub](https://github.com/cloudnative-pg/cloudnative-pg)

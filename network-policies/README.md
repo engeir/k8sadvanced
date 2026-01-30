@@ -1,9 +1,13 @@
 # 🧪 Kubernetes Lab: NetworkPolicies with Minikube
-This lab teaches you how to control Pod-to-Pod communication using NetworkPolicies. You’ll deploy sample apps, apply policies, and observe how traffic is allowed or blocked.
+
+This lab teaches you how to control Pod-to-Pod communication using NetworkPolicies.
+You’ll deploy sample apps, apply policies, and observe how traffic is allowed or
+blocked.
 
 ---
 
 ## 🎯 Learning Objectives
+
 Understand the default allow model in Kubernetes networking.
 
 Apply a default deny policy to isolate Pods.
@@ -15,6 +19,7 @@ Test connectivity using kubectl exec and curl.
 ---
 
 ## 📋 Prerequisites
+
 Minikube running with a CNI plugin that supports NetworkPolicies (e.g., --cni=calico).
 
 ```
@@ -32,6 +37,7 @@ kubectl create namespace lab-netpol
 ```
 
 ### Step 2: Deploy Sample Apps
+
 We’ll deploy a backend (nginx) and two clients (frontend and test).
 
 ```
@@ -174,13 +180,15 @@ kubectl apply -f allow-frontend.yaml
 
 ```
 
-Test: 
+Test:
+
 ```
 kubectl exec -n lab-netpol frontend -- curl -s backend   # ✅ should work
 kubectl exec -n lab-netpol test -- curl -s backend       # ❌ should fail
 ```
 
 ### Step 6: (Optional) Add Egress Control
+
 Block all egress except DNS (UDP 53):
 
 ```
@@ -217,6 +225,7 @@ kubectl delete ns lab-netpol
 ```
 
 ### 🛠️ Troubleshooting Tips
+
 Use `kubectl describe netpol -n lab-netpol` to see applied policies.
 
 Remember: Policies are additive — multiple policies can apply to the same Pod.

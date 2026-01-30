@@ -3,6 +3,7 @@
 This repo contains the lab work for the Kubernetes course.
 
 ## Labs
+
 1. [Setting up your environment](setup-k8s/README.md)
 2. [Node Affinity, Taints & Tolerations](node-affinity-taints/README.md)
 3. [Resource limiting](resource-limiting/README.md)

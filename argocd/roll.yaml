@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
@@ -19,7 +20,7 @@ spec:
         app: bluegreen-demo
     spec:
       containers:
-      - name: demo
-        image: nginx:1.21
-        ports:
-        - containerPort: 80
+        - name: demo
+          image: nginx:1.21
+          ports:
+            - containerPort: 80

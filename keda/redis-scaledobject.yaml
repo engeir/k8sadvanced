@@ -1,3 +1,4 @@
+---
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
@@ -5,14 +6,14 @@ metadata:
 spec:
   scaleTargetRef:
     name: redis-worker
-  pollingInterval: 5  # seconds
-  cooldownPeriod:  30 # seconds
+  pollingInterval: 5 # seconds
+  cooldownPeriod: 30 # seconds
   minReplicaCount: 0
   maxReplicaCount: 5
   triggers:
-  - type: redis
-    metadata:
-      address: "redis:6379"
-      listName: "keda-queue"
-      listLength: "5"
-    authenticationRef: null
+    - type: redis
+      metadata:
+        address: "redis:6379"
+        listName: "keda-queue"
+        listLength: "5"
+      authenticationRef: null

@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Pod
 metadata:
@@ -6,16 +7,16 @@ metadata:
     app: producer
 spec:
   containers:
-  - name: producer
-    image: redis:7
-    command:
-      - /bin/sh
-      - -c
-      - |
-        for i in $(seq 1 100); do
-          redis-cli -h redis LPUSH keda-queue "msg-$i"
-          echo "pushed msg-$i"
-          sleep 0.1
-        done
-        echo "done"; sleep 3600
+    - name: producer
+      image: redis:7
+      command:
+        - /bin/sh
+        - -c
+        - |
+          for i in $(seq 1 100); do
+            redis-cli -h redis LPUSH keda-queue "msg-$i"
+            echo "pushed msg-$i"
+            sleep 0.1
+          done
+          echo "done"; sleep 3600
   restartPolicy: Never

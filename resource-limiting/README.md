@@ -1,10 +1,13 @@
 # 🧪 Kubernetes Lab: Resource Limits on Namespaces (with Minikube)
 
-This lab teaches you how to control compute and object usage at the namespace level using **ResourceQuota** and **LimitRange**. You’ll create quotas, deploy workloads that consume resources, and watch Kubernetes enforce limits.
+This lab teaches you how to control compute and object usage at the namespace level
+using **ResourceQuota** and **LimitRange**. You’ll create quotas, deploy workloads that
+consume resources, and watch Kubernetes enforce limits.
 
 ---
 
 ## 🎯 Learning Objectives
+
 - Understand what **ResourceQuota** and **LimitRange** do.
 - Apply namespace-wide quotas for CPU, memory, and pod counts.
 - Verify how violations are enforced and troubleshoot errors.
@@ -13,6 +16,7 @@ This lab teaches you how to control compute and object usage at the namespace le
 ---
 
 ## 📋 Prerequisites
+
 - **Minikube** installed and running.
 - **kubectl** installed and configured to use the `minikube` context.
 - A terminal (Bash, PowerShell, etc.).
@@ -27,6 +31,7 @@ kubectl get ns lab-quota
 ```
 
 ### Step 2: Apply a ResourceQuota
+
 Create quota.yaml:
 
 ```
@@ -52,7 +57,9 @@ kubectl describe resourcequota compute-and-pods -n lab-quota
 ```
 
 ### Step 3: Apply a LimitRange
+
 Create limitrange.yaml:
+
 ```
 apiVersion: v1
 kind: LimitRange
@@ -71,12 +78,14 @@ spec:
 ```
 
 Apply it:
+
 ```
 kubectl apply -n lab-quota -f limitrange.yaml
 kubectl describe limitrange defaults -n lab-quota
 ```
 
 ### Step 4: Deploy a Sample App
+
 Create deploy.yaml:
 
 ```
@@ -103,6 +112,7 @@ spec:
 ```
 
 Apply and inspect:
+
 ```
 kubectl apply -n lab-quota -f deploy.yaml
 kubectl get pods -n lab-quota
@@ -127,6 +137,7 @@ Error creating: pods "web-..." is forbidden: exceeded quota: compute-and-pods
 ```
 
 ### Step 6: (Optional) Pod-Count-Only Quota
+
 Create pods-quota.yaml:
 
 ```
