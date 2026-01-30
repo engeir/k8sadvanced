@@ -32,14 +32,14 @@ and NoSchedule taints.
 
 On a fresh environment you can run:
 
-```
+```bash
 minikube delete --all
 minikube start --nodes=2
 ```
 
 If you already have Minikube running you can add a node:
 
-```
+```bash
 minikube node add
 kubectl get nodes -o wide
 ```
@@ -48,7 +48,7 @@ kubectl get nodes -o wide
 
 ### Step 1: Create a namespace for the lab
 
-```
+```bash
 kubectl create namespace lab-affinity
 kubectl get ns lab-affinity
 ```
@@ -58,23 +58,23 @@ kubectl get ns lab-affinity
 Pick one node name from `kubectl get nodes` and label it. We'll use `disktype=ssd` as an
 example label.
 
-```
+```bash
 NODE=$(kubectl get nodes -o name | sed -n '1p' | cut -d/ -f2)
 # or on PowerShell: $NODE = (kubectl get nodes -o name)[0] -replace 'node/', ''
 kubectl label node $NODE disktype=ssd
 kubectl get node $NODE --show-labels
 ```
 
-> You should now have a node labeled `disktype=ssd`.
+> You should now have a node labelled `disktype=ssd`.
 
 ---
 
 ### Step 3: Required node affinity (hard requirement)
 
 Apply `required-affinity-deployment.yaml` to create a Deployment that only schedules on
-nodes labeled `disktype=ssd`.
+nodes labelled `disktype=ssd`.
 
-```
+```bash
 kubectl apply -n lab-affinity -f required-affinity-deployment.yaml
 kubectl get pods -n lab-affinity -o wide
 kubectl describe pod -n lab-affinity -l app=nginx-req
@@ -90,7 +90,7 @@ remain `Pending`.
 Apply `preferred-affinity-deployment.yaml`. This deployment prefers nodes with
 `disktype=ssd` but may schedule elsewhere if none are available.
 
-```
+```bash
 kubectl apply -n lab-affinity -f preferred-affinity-deployment.yaml
 kubectl get pods -n lab-affinity -o wide
 kubectl describe pod -n lab-affinity -l app=nginx-pref
@@ -103,7 +103,7 @@ kubectl describe pod -n lab-affinity -l app=nginx-pref
 Pick the other node and taint it so pods without the matching toleration cannot be
 scheduled there.
 
-```
+```bash
 # get second node name
 NODE2=$(kubectl get nodes -o name | sed -n '2p' | cut -d/ -f2)
 # PowerShell analog available above
@@ -114,7 +114,7 @@ kubectl describe node $NODE2 | sed -n '/Taints/,$p'
 Apply a pod that does NOT include tolerations (`taint-pod-no-toleration.yaml`) and one
 that DOES include the appropriate toleration (`taint-pod-with-toleration.yaml`):
 
-```
+```bash
 kubectl apply -n lab-affinity -f taint-pod-no-toleration.yaml
 kubectl apply -n lab-affinity -f taint-pod-with-toleration.yaml
 kubectl get pods -n lab-affinity -o wide
@@ -135,7 +135,7 @@ tainted, combine a required nodeAffinity to the tainted node: label that node (f
 example, `purpose=tainted`) and use a deployment that requires `purpose=tainted` without
 tolerations. It will remain Pending because of NoSchedule.
 
-```
+```bash
 # label the node and taint it
 kubectl label node <tainted-node> purpose=tainted
 kubectl taint node <tainted-node> key1=value1:NoSchedule
@@ -150,7 +150,7 @@ kubectl describe pod -n lab-affinity -l app=nginx-req-tainted
 
 ### Cleanup
 
-```
+```bash
 kubectl delete ns lab-affinity
 kubectl label node --all disktype- || true
 kubectl taint nodes --all key1:NoSchedule- || true
